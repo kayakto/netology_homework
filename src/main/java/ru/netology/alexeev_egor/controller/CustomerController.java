@@ -15,6 +15,7 @@ public class CustomerController {
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
+
     @GetMapping
     public CustomersGetResponse getCustomers(){
         List<Customer> customers = customerService.getCustomers();
@@ -22,17 +23,24 @@ public class CustomerController {
                 .map(customer -> new CustomerDTO(customer.getId(), customer.getName()))
                 .collect(Collectors.toList());
         return new CustomersGetResponse(customerDTOS);
-    }
+    } // curl http://localhost:8080/api/customers/
 
     @GetMapping("{id}")
     public CustomerDTO getCustomer(@PathVariable("id") int id){
         Customer customer = customerService.getCustomer(id);
         return new CustomerDTO(customer.getId(), customer.getName());
-    }
+    } // curl http://localhost:8080/api/customers/1
+
     @PostMapping
     public CustomerDTO addCustomer(int id, String name){
-        customerService.addUser(id, name);
+        customerService.addCustomer(id, name);
         Customer customer = customerService.getCustomer(id);
         return new CustomerDTO(customer.getId(),customer.getName());
+    } // curl -X POST -d "id=3&name=Ivan" http://localhost:8080/api/customers/
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCustomer(@PathVariable("id") int id) {
+        customerService.removeCustomer(id);
     }
+    // curl -X DELETE http://localhost:8080/api/customers/delete/3
 }

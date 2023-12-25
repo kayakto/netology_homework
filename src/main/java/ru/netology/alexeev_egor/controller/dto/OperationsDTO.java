@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class OperationsDTO {
     private final int customerId;
+    private final int operationId;
     private final int sum;
     private final String currency;
     private final String merchant;

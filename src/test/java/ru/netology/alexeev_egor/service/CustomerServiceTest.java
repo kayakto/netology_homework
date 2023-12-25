@@ -1,10 +1,8 @@
 package ru.netology.alexeev_egor.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import ru.netology.alexeev_egor.OperationHistoryApiApplicationTest;
 import ru.netology.alexeev_egor.domain.Customer;
 
@@ -27,15 +25,37 @@ public class CustomerServiceTest extends OperationHistoryApiApplicationTest {
         assertEquals("Spring", customer1.getName());
         assertEquals(2, customer2.getId());
         assertEquals("Boot", customer2.getName());
-        assertEquals(2,customers.size());
+        assertEquals(2, customers.size());
     }
 
     @Test
     @Order(2)
+    public void getCustomerTest() {
+        Customer customer1 = customerService.getCustomer(1);
+        assertEquals(1, customer1.getId());
+        assertEquals("Spring", customer1.getName());
+
+        Customer customer2 = customerService.getCustomer(2);
+        assertEquals(2, customer2.getId());
+        assertEquals("Boot", customer2.getName());
+    }
+
+    @Test
+    @Order(3)
     public void addCustomerTest(){
-        customerService.addUser(3, "Egor");
+        customerService.addCustomer(3, "Egor");
         List<Customer> customers = customerService.getCustomers();
         Customer customer = customers.get(customers.size()-1);
         assertEquals("Egor", customer.getName());
+    }
+
+    @Test
+    @Order(4)
+    public void removeCustomerTest(){
+        List<Customer> customers = customerService.getCustomers();
+        int sizeBefore = customers.size();
+        customerService.addCustomer(4, "Mikhail");
+        int sizeAfter = customers.size();
+        assertEquals(sizeBefore + 1, sizeAfter);
     }
 }

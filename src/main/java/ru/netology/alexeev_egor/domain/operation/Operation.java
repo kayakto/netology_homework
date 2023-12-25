@@ -3,12 +3,11 @@ package ru.netology.alexeev_egor.domain.operation;
 import ru.netology.alexeev_egor.domain.Customer;
 
 public class Operation {
-    int sum;
-    String currency;
-    String merchant;
-    int id;
-    Customer customer;
-
+    private int sum;
+    private String currency;
+    private String merchant;
+    private int id;
+    private Customer customer;
 
     public Operation(int sum, String currency, String merchant, int id) {
         this.sum = sum;

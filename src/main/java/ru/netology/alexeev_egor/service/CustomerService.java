@@ -3,8 +3,7 @@ package ru.netology.alexeev_egor.service;
 import org.springframework.stereotype.Component;
 import ru.netology.alexeev_egor.domain.Customer;
 import javax.annotation.PostConstruct;
-
-import java.util.List;
+import java.util.*;
 
 @Component
 public class CustomerService {
@@ -19,11 +18,36 @@ public class CustomerService {
     }
 
     public Customer getCustomer(int customerId) {
-        return storage.get(customerId);
+
+        for (Customer customer : storage) {
+
+            if (customer.getId() == customerId){
+                return customer;
+            }
+        }
+        return null;
     }
 
-    public void addUser(int id, String name){
-        storage.add(new Customer(id, name));
+    public void addCustomer(int customerId, String name){
+        Customer customer = new Customer(customerId, name);
+
+        if (storage.contains(customer)) {
+            return;
+        }
+
+        storage.add(new Customer(customerId, name));
+    }
+
+    public void removeCustomer(int customerId) {
+        Iterator<Customer> customerIterator = storage.iterator();
+
+        while (customerIterator.hasNext()) {
+            Customer customer = customerIterator.next();
+
+            if (customer.getId() == customerId) {
+                customerIterator.remove();
+            }
+        }
     }
 
     @PostConstruct

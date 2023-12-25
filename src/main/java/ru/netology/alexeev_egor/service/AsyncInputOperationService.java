@@ -30,13 +30,13 @@ public class AsyncInputOperationService {
     }
 
     public void processQueue() {
-        while (true){
+        while (true) {
             Operation operation = operations.poll();
-            if (operation == null){
-                try{
+            if (operation == null) {
+                try {
                     System.out.println("No operations");
                     Thread.sleep(operationProperties.getSleepMilliSeconds());
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println(e);
                 }
             } else {
@@ -46,7 +46,7 @@ public class AsyncInputOperationService {
         }
     }
 
-    public void processOperation(Operation operation){
+    private void processOperation(Operation operation){
         statementService.saveOperation(operation);
     }
 
